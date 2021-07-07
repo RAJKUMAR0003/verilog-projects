@@ -178,3 +178,21 @@ module carry_select_64_bit(sum,carry_out,a,b,carry_in);
     carry_select_adder  CS3(sum[47:32],t[2],a[47:32],b[47:32],t[1]);
     carry_select_adder  CS4(sum[63:48],carry_out,a[63:48],b[63:48],t[2]);
 endmodule
+
+// TEST BENCH 
+module testbench;
+reg [63:0] inp1 ,inp2 ;
+reg inp_carry;
+wire [64:0]sum_out;
+carry_select_64_bit DUT(sum_out[63:0],sum_out[64],inp1,inp2,inp_carry);
+initial 
+        begin
+        $monitor("number 1 = %d , number 2 = %d , sum = %d ",inp1,inp2,sum_out);
+            inp1 = 64'd5000;        inp2 = 64'd6125 ;    inp_carry = 1'b0;
+        #5  inp1 = 64'd20000;       inp2 = 64'd12000 ;   inp_carry = 1'b0;
+        #5  inp1 = 64'd80000;       inp2 = 64'd9000 ;    inp_carry = 1'b0;
+        #5  inp1 = 64'd0;           inp2 = 64'd0    ;    inp_carry = 1'b0;
+        #5  inp1 = 64'd88000;       inp2 = 64'd100000 ;  inp_carry = 1'b0;           
+        $finish;     
+        end
+endmodule
